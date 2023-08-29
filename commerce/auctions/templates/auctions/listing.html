@@ -1,0 +1,175 @@
+{% extends "auctions/layout.html" %}
+
+{% load static %}
+<link href="{% static 'auctions/styles.css' %}" rel="stylesheet">
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+    integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+
+
+{% block body %}
+{%if message%}
+<div  class="container" style=" margin-bottom: 0px; padding: 0px ;">
+    {%if update%}
+    <div style=" text-align: center; margin-bottom: 0px;" class="alert alert-success" role="alert">
+       {{message}}
+    </div>
+    {%else%}
+    <div style=" margin-bottom: 0px; " class="alert alert-danger" role="alert">
+        {{message}}
+    </div>
+
+    {%endif%}
+</div>
+{%endif%}
+
+
+{% if not listing.active and user == listing.price.user%}
+<div class="alert alert-success" role="alert">
+    You WON
+</div>
+{%endif%}
+
+
+<div class="card text-center ">
+    <div class="card-body">
+        <h2 style="color: {{color}};" class="card-title">{{listing.title}}</h2><br>
+        
+        
+        
+        <img src="{{listing.imgURL}}" class="img-fluid rounded-start" alt="{{listing.title}}">
+        <div class="centered-text">
+            <div class="card-header text-monospace" style= "background: {{color }}; ">
+                <h3 style="color: white;font-family: monospace;">{{listing.category}}</h3>
+        
+            </div>
+            <p style="width: 500px; margin: 10px auto;" class="card-text">{{listing.description}}</p>
+        </div>
+        <h3> <strong>${{listing.price.bid}}</strong> </h3>
+        <p class="text-monospace">Listed by: <strong>{{listing.owner|upper}}</strong> {{status}}</p>
+        <p class="text-monospace">Highest Bidder: <strong>{{listing.owner|upper}}</strong> </p>
+        
+
+        {% if user.is_authenticated and listing.active%}
+        {% if watchlist %}
+        <form action="{%url 'removeWatchlist' id=listing.id%}" method="POST">
+            {% csrf_token %}
+            <div style="margin-top: 15px; display: inline;">
+                <button type="submit" class="button-82-pushable" role="button">
+                    <span class="button-82-shadow"></span>
+                    <span class="button-82-edge"></span>
+                    <span class="button-82-front text">
+                        Remove from Watchlist
+                    </span>
+                </button>
+
+            </div>
+
+
+
+        </form>
+        {% else %}
+        <form action="{%url 'addWatchlist' id=listing.id%}" method="POST">
+            {% csrf_token %}
+            <div style="margin-top: 15px; display: inline;">
+                <button type="submit" class="button-82-pushable" role="button">
+                    <span class="button-82-shadow"></span>
+                    <span style="background: #176429;" class="button-82-edge"></span>
+                    <span style="background: #28a745;" class="button-82-front text">
+                        Add to Watchlist
+                    </span>
+                </button>
+
+            </div>
+
+        </form>
+        {% endif %}
+        {% endif %}
+
+
+
+
+
+    </div>
+    <div class="card-footer text-body-secondary">
+        {% if not user.is_authenticated %}
+
+        <a href="{% url 'login' %}">
+            <button type="submit" class="button-82-pushable" role="button">
+                <span class="button-82-shadow"></span>
+                <span class="button-82-edge"></span>
+                <span class="button-82-front text">
+                    Login to Buy
+                </span>
+            </button></a>
+
+
+        {%endif%}
+
+        {% if user.is_authenticated and listing.active%}
+        {% if owner %}
+        <form action="{%url 'close' id=listing.id%}" method="POST">
+            {% csrf_token %}
+            <button type="submit" class="button-82-pushable" role="button">
+                <span class="button-82-shadow"></span>
+                <span class="button-82-edge"></span>
+                <span class="button-82-front text">
+                    Close Auction
+                </span>
+            </button>
+
+        </form>
+        {%endif%}
+
+
+        {% endif %}
+    </div>
+</div>
+
+{% if user.is_authenticated %}
+
+<form action="{%url 'addBid' id=listing.id%}" method="POST">
+    {% csrf_token %}
+    <div class="from-group">
+        <label for="price">Add Bid</label>
+        <input type="number" min="0" name="newBid" placeholder="Add Bid">
+        <button type="submit" class="btn btn-warning">Post</button>
+    </div>
+
+
+</form>
+
+{% endif %}
+<hr>
+
+<h1>Comments</h1>
+<div>
+    {% if user.is_authenticated %}
+    <form action="{%url 'addComment' id=listing.id%}" method="POST">
+        {% csrf_token %}
+        <div class="from-group">
+            <label for="price">Add Comment</label>
+            <input type="text" name="newComment" placeholder="Add New Comment">
+            <button type="submit" class="btn btn-warning">Post</button>
+        </div>
+        <hr>
+
+
+    </form>
+    <ul>
+
+        {% for comment in comments%}
+        <li class="list-group-item"> {{comment.message}}</li>
+        <p>Posted by: {{comment.commenter}}</p>
+        {%endfor%}
+    </ul>
+
+    {% else %}
+    Not signed in.
+    {% endif %}
+</div>
+{% load static %}
+<link href="{% static 'auctions/styles.css' %}" rel="stylesheet">
+
+
+
+{% endblock %}

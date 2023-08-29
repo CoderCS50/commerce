@@ -1,0 +1,68 @@
+{% extends "auctions/layout.html" %}
+
+
+<p>hello</p>
+{% block body %}
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+  integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+
+<div style="text-align: center; margin-bottom: 10px;font-family: monospace;">
+  <h2>Active Listings</h2>
+</div>
+
+<form action="{%url 'categorize'%}" method="POST">
+  {% csrf_token %}
+  <div class="mb-3">
+    <p style="color: rgb(118, 118, 118); font-family: monospace; font-size: 22px; margin-left: 35px;" for="category">
+      Choose Category</p>
+    <select name="category" style="width: 20%; border-radius: 12px;" aria-label="Default select example" required>
+      <option value="{{category}}" disabled selected>Categories</option>
+      {% for catergory in categories%}
+      <option>{{catergory}}</option>
+      {% endfor %}
+
+    </select>
+    <div style="margin-top: 15px; display: inline;">
+      <button type="submit" class="button-82-pushable" role="button">
+        <span class="button-82-shadow"></span>
+        <span class="button-82-edge"></span>
+        <span class="button-82-front text">
+          View
+        </span>
+      </button>
+
+    </div>
+  </div>
+</form>
+<div class="row mx-3">
+  {%for listing in listings%}
+  <div class="card text-center mb-3 " style="box-shadow: 0 5px 15px rgba(255, 0, 0, 0.15); width: 20rem; border-radius: 15px; margin: 15px;">
+   <img style="margin: 10px;" src="{{listing.imgURL}}" class="img-fluid rounded-start" alt="{{listing.title}}">
+    <div class="card-body" style="background: rgb(240, 240, 240); border-radius: 15px; margin: 5px;">
+      <h5 class="card-title">{{listing.title}}</h5>
+      
+      <p class="card-text">{{listing.description}}</p>
+      <p style="color: red;"> <strong>${{listing.price.bid}}</strong></p>
+      <a href="{%url 'listing' id=listing.id%}">
+        <button class="button-82-pushable" role="button">
+          <span class="button-82-shadow"></span>
+          <span class="button-82-edge"></span>
+          <span class="button-82-front text">
+            View
+          </span>
+        </button>
+      </a>
+          
+            
+        
+      </div>
+  </div>
+{%endfor%}
+
+
+  
+
+
+
+
+{% endblock %}

@@ -1,0 +1,86 @@
+{% extends "auctions/layout.html" %}
+
+
+{% load static %}
+<link href="{% static 'auctions/styles.css' %}" rel="stylesheet">
+
+
+
+{% block body %}
+<!-- <h2>Add New Listing</h2> -->
+<!-- <form action="{%url 'addListing' %}" method="POST">
+        {% csrf_token %}
+        
+        <div class="mb-3">
+            <label for="title" class="form-label">Title</label>
+            <input type="text" name="title" id="title" class="form-control" placeholder="Enter title">   
+        </div>
+        
+        <div class="mb-3">
+            <label for="description" class="form-label">Description</label>
+            <input type="text" name="description" id="description" class="form-control" placeholder="Enter description">   
+        </div>
+        
+        <div class="mb-3">
+            <label for="imgURL" class="form-label">Listing Image</label>
+            <input type="text" name="imgURL" id="imgURL" class="form-control" placeholder="Enter listing image URL">   
+        </div>
+        <div class="mb-3">
+          <label for="category" class="form-label">Choose a category</label>
+          <br>
+          <select name="category" class="form-select" aria-label="Default select example" required>
+              <option value="{{category}}" disabled selected>Choose</option>
+              {% for catergory in categories%}
+                  <option>{{catergory}}</option>
+              {% endfor %}
+              
+          </select>
+        </div>
+        
+        <div class="mb-3">
+            <label for="price" class="form-label">Price in $USD</label>
+            <input type="number" min="0" name="price" id="price" class="form-control" placeholder="Enter your price">   
+          </div>
+          
+          
+          
+        
+        
+        <button type="submit" class="btn btn-primary">Add</button>
+      </form> -->
+
+
+<div class="container">
+    <form action="{%url 'addListing' %}" method="POST">
+        {% csrf_token %}
+        <div class="row">
+            <h4>Add New Listing</h4>
+            <input type="text" name="title" id="title" placeholder="Title" />
+            <div class="input-group" >
+                <select name="category" class="form-select" aria-label="Default select example" required>
+                    <option value="{{category}}" disabled selected>Category</option>
+                    {% for catergory in categories%}
+                        <option>{{catergory}}</option>
+                    {% endfor %}
+                    
+                </select>
+            </div>
+            <textarea type="text" name="description" id="description" cols="70" rows="10" placeholder="Enter Description"></textarea>
+            <input name="imgURL" id="imgURL" type="text" placeholder="Image URL" />
+            <input type="number" min="0" name="price" id="price" placeholder="$Price" />
+        </div>
+        <div style="margin-left: 150px; margin-top: 10px;">
+            <button class="button-82-pushable" role="button">
+                <span class="button-82-shadow"></span>
+                <span class="button-82-edge"></span>
+                <span class="button-82-front text">
+                  List Pokemon
+                </span>
+              </button>
+        </div>
+            <hr class="solid">
+        
+    </form>
+
+
+    {% endblock %}

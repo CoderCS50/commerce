@@ -1,0 +1,56 @@
+{% extends "auctions/layout.html" %}
+
+{% block body %}
+
+<h1 class="csg-header" style=" text-align: center; position: relative;font-weight: 600;
+  
+margin-top: 50px;
+font-size: 2.5rem;
+ background: linear-gradient(90deg,#ff3c00 0,#e21919d1 100%);
+ -webkit-background-clip: text;
+ -webkit-text-fill-color: transparent;
+ background-clip: text;
+ padding-bottom: 10px;
+ margin-bottom: 0px;
+ letter-spacing: .05rem;">Welcome Back! </h1>
+<hr>
+
+{% if message %}
+<div>{{ message }}</div>
+{% endif %}
+
+<div style="display: flex; justify-content: center; ">
+    <form style="width: 30%;" action="{% url 'login' %}" method="post">
+        {% csrf_token %}
+        <div class="form-group">
+            <input autofocus class="form-control" type="text" name="username" placeholder="Username">
+        </div>
+        <div class="form-group">
+            <input class="form-control" type="password" name="password" placeholder="Password">
+        </div>
+        <a class="nav-link" href="{% url 'login' %}">
+            <button style="width: 100%;" type="submit" class="button-82-pushable" value="Login" role="button">
+                <span class="button-82-shadow"></span>
+                <span class="button-82-edge"></span>
+                <span class="button-82-front text">
+                    Login
+                </span>
+            </button>
+        </a>
+    </form>
+
+</div>
+<div style="display: flex; justify-content: center;"> <p style=" margin-right: 5px;">Don't have an account?</p> <a style="color: #ff3c00;" href="{% url 'register' %}"> Register
+        here.</a></div>
+
+
+
+{% endblock %}
+
+
+
+
+
+
+
+

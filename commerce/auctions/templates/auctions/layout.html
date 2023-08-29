@@ -1,0 +1,104 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+
+
+    <title>{% block title %}Auctions{% endblock %}</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+        integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    {% load static %}
+    {% load static %}
+    <link href="{% static 'auctions/styles.css' %}" rel="stylesheet">
+    {% load static %}
+    <script type="text/javascript" src="{% static 'auctions/script.js' %}"></script>
+
+</head>
+
+<body>
+    <!-- Bootstrap Navbar -->
+    <nav style="margin: 0px;" class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container-fluid">
+            <div>
+                <a class="navbar-brand" href="{% url 'index' %}">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/Pok%C3%A9_Ball_icon.svg/1200px-Pok%C3%A9_Ball_icon.svg.png"
+                        alt="Logo" width="55">
+                    <h1 class="navbar-brand">
+                        Pokémon Auction</h1>
+
+                </a>
+
+            </div>
+
+
+
+            <div>
+                {% if user.is_authenticated %}
+                Welcome, <strong>{{ user.username|upper}}!</strong>
+                {% else %}
+                NOT SIGNED IN
+                {% endif %}
+            </div>
+            <ul class="navbar-nav">
+                <!-- <li class="nav-item">
+                        <a class="nav-link" href="{% url 'test' %}">test</a>
+                    </li> -->
+                    {% if user.is_authenticated %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'index' %}">Active Listings </a>
+                    </li>
+                <li class="nav-item">
+                    <a style="text-decoration: none; border-bottom: 2px solid red; color: inherit;" class="nav-link"
+                        href="{% url 'addListing' %}">Add New Listing</a>
+                </li>
+                <li class="nav-item">
+                    <a  class="nav-link" href="{% url 'watchlist' %}">Watchlist: <strong style="color: red;">{{inWatchlist}}</strong></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'logout' %}">
+                        <button type="submit" class="button-82-pushable" role="button">
+                            <span class="button-82-shadow"></span>
+                            <span class="button-82-edge"></span>
+                            <span class="button-82-front text">
+                                Log Out
+                            </span>
+                        </button>
+                    </a>
+                </li>
+                {% else %}
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'login' %}">
+                        <button type="submit" class="button-82-pushable" role="button">
+                            <span class="button-82-shadow"></span>
+                            <span class="button-82-edge"></span>
+                            <span class="button-82-front text">
+                                Login
+                            </span>
+                        </button>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a style=" font-size: 1.25rem; color: hsl(345deg 100% 47%);" class="nav-link"
+                        href="{% url 'register' %}">Register</a>
+                </li>
+                {% endif %}
+            </ul>
+
+        </div>
+    </nav>
+    <!-- End Bootstrap Navbar -->
+  
+    {% block body %}
+    {% endblock %}
+
+    <!-- Include Bootstrap JS and jQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
+
+</body>
+</body>
+
+</html>
